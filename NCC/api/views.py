@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Users
@@ -34,5 +34,10 @@ class Login(APIView):
 
         response = Response({'message': 'Login successful!'})
         response.set_cookie(key='access', value=access_token, httponly=True)
+
+        if user.isStaf: 
+            return redirect('adminPanel')  
+        else:  
+            return redirect('userPanel') 
 
         return response
